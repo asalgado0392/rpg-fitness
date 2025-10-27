@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RPG Fitness Tracker - Misiones Diarias</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Estilo botones verticales centrados y espaciados */
+        .btn-group-vertical {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px; /* separación entre botones */
+            max-width: 300px;
+            margin: 0 auto; /* centrado horizontal */
+        }
+
+        /* Icono de misión completada */
+        .btn-check:checked + .btn::after {
+            content: " ✅";
+            font-size: 1.1rem;
+            margin-left: 5px;
+        }
+
+        /* Alineación del texto dentro de botones */
+        .btn-group-vertical .btn {
+            text-align: center;
+            width: 100%;
+        }
+        /* Color personalizado para botones de misiones */
+        .btn-outline-purple {
+            background-color: #9cc2f0;
+            border-color: #9cc2f0;
+        }
+
+        .btn-outline-purple:hover,
+        .btn-outline-purple:focus {
+            background-color: #9cc2f0;
+            color: #fff;
+        }
+
+        /* Icono de misión completada */
+        .btn-check:checked + .btn-outline-purple::after {
+            content: " ✅";
+            font-size: 1.1rem;
+            margin-left: 5px;
+        }
+
+    </style>
+</head>
+<body class="bg-dark text-light">
+
+<div class="container py-3">
+
+    <!-- HEADER -->
+    <header class="text-center mb-4">
+        <h1 class="display-5 text-warning">🏹 Misiones Diarias</h1>
+        <p class="lead">Nivel: {{ data.level }} | XP: {{ data.xp }}</p>
+    </header>
+
+    <!-- Selector de Fecha -->
+    <div class="mb-3 text-center">
+        <label class="form-label text-warning" for="date">Selecciona la fecha:</label>
+        <input type="date" id="date" name="date" value="{{ selected_date }}" class="form-control d-inline-block w-auto">
+    </div>
+
+    <!-- MISIONES DIARIAS -->
+    <form method="POST">
+        <h2 class="h4 text-warning mt-3 mb-2">Misiones</h2>
+        <div class="btn-group-vertical mb-3 w-50 mx-auto" role="group">
+            {% for quest, done in record.daily_quests.items() %}
+                <input type="checkbox" class="btn-check" name="daily_quests" value="{{ quest }}" id="{{ quest }}" autocomplete="off" {% if done %}checked{% endif %}>
+                <label class="btn btn-outline-info mb-1 d-flex justify-content-between align-items-center" for="{{ quest }}">
+                    {{ quest|capitalize }}
+                </label>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-warning btn-lg mt-2 w-100">Actualizar</button>
+
+        <!-- ACTUALIZAR PESO -->
+        <h2 class="h4 text-warning mt-4 mb-2">Actualizar Peso</h2>
+        <div class="input-group mb-3 w-50 mx-auto">
+            <input type="number" step="0.1" class="form-control" name="weight" value="{{ record.weight }}" placeholder="Peso en kg" required>
+            <button class="btn btn-warning" type="submit">Actualizar</button>
+        </div>
+    </form>
+
+    <!-- BOTÓN REGRESAR AL DASHBOARD -->
+    <div class="text-center mt-4">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-warning btn-lg w-50">⬅ Volver al Dashboard</a>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Recargar automáticamente la página al cambiar la fecha
+    document.getElementById('date').addEventListener('change', function() {
+        const selectedDate = this.value;
+        const url = new URL(window.location.href);
+        url.searchParams.set('date', selectedDate);
+        window.location.href = url.toString();
+    });
+</script>
+
+</body>
+</html>

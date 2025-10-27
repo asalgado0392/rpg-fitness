@@ -1,0 +1,97 @@
+{
+    "weight": 110.5,
+    "level": 1,
+    "xp": 0,
+    "daily_quests": {
+        "cardio": true,
+        "strength": true,
+        "stretching": true,
+        "water": true
+    },
+    "history": [
+        {
+            "date": "2025-10-27",
+            "weight": 110.5,
+            "level": 1,
+            "xp": 0,
+            "daily_quests": {
+                "cardio": false,
+                "strength": false,
+                "stretching": false,
+                "water": false
+            }
+        },
+        {
+            "date": "2025-10-26",
+            "daily_quests": {
+                "cardio": false,
+                "strength": false,
+                "stretching": false,
+                "water": false
+            },
+            "weight": 110.5,
+            "level": 1,
+            "xp": 0
+        },
+        {
+            "date": "2025-10-28",
+            "daily_quests": {
+                "cardio": false,
+                "strength": false,
+                "stretching": false,
+                "water": false
+            },
+            "weight": 110.5,
+            "level": 2,
+            "xp": 0
+        },
+        {
+            "date": "2025-10-29",
+            "daily_quests": {
+                "cardio": false,
+                "strength": false,
+                "stretching": false,
+                "water": false
+            },
+            "weight": 110.5,
+            "level": 2,
+            "xp": 0
+        },
+        {
+            "date": "2025-10-30",
+            "daily_quests": {
+                "cardio": false,
+                "strength": false,
+                "stretching": false,
+                "water": false
+            },
+            "weight": 110.5,
+            "level": 2,
+            "xp": 0
+        },
+        {
+            "date": "2025-10-31",
+            "daily_quests": {
+                "cardio": false,
+                "strength": false,
+                "stretching": false,
+                "water": false
+            },
+            "weight": 110.5,
+            "level": 1,
+            "xp": 0
+        },
+        {
+            "date": "2025-11-01",
+            "daily_quests": {
+                "cardio": false,
+                "strength": false,
+                "stretching": false,
+                "water": false
+            },
+            "weight": 110.5,
+            "level": 1,
+            "xp": 0
+        }
+    ]
+}

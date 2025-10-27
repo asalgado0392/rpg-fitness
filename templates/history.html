@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RPG Fitness Tracker - Histórico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-dark text-light">
+
+<div class="container py-5">
+
+    <header class="text-center mb-4">
+        <h1 class="display-5 text-warning">📜 Histórico de Progreso</h1>
+        <p class="lead">Peso, nivel, XP y misiones completadas día con día</p>
+    </header>
+
+    {% if history %}
+    <div class="list-group">
+        {% for record in history|reverse %}
+        <div class="list-group-item bg-secondary text-light mb-2 rounded">
+            <h5>{{ record.date }}</h5>
+            <p>Peso: {{ record.weight }} kg</p>
+            <p>Nivel: {{ record.level }}, XP: {{ record.xp }}</p>
+            <p>Misiones completadas:
+                {% if record.completed_quests %}
+                    {{ record.completed_quests | join(', ') }}
+                {% else %}
+                    Ninguna
+                {% endif %}
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-warning text-center">
+        ⚠️ No hay registros anteriores
+    </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-warning btn-lg">⬅ Volver al Dashboard</a>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

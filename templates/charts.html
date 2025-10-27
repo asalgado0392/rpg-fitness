@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RPG Fitness Tracker - Gráficas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-dark text-light">
+
+<div class="container py-4">
+
+    <header class="text-center mb-4">
+        <h1 class="display-5 text-warning">📊 Progreso Visual</h1>
+        <p class="lead">Peso, nivel y XP diarios, semanales y mensuales</p>
+    </header>
+
+    <!-- FILTRO DE RANGO DE FECHAS -->
+    <form method="POST" class="row g-2 mb-4">
+        <div class="col-auto">
+            <input type="date" class="form-control" name="start_date" value="{{ start_date }}">
+        </div>
+        <div class="col-auto">
+            <input type="date" class="form-control" name="end_date" value="{{ end_date }}">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-warning">Filtrar</button>
+        </div>
+    </form>
+
+    <!-- GRÁFICAS DIARIAS -->
+    <h3 class="text-warning mt-4">Diario</h3>
+    <canvas id="dailyWeightChart" class="mb-4"></canvas>
+    <canvas id="dailyLevelChart" class="mb-4"></canvas>
+    <canvas id="dailyXPChart" class="mb-5"></canvas>
+
+    <!-- GRÁFICAS SEMANALES -->
+    <h3 class="text-warning mt-4">Semanal</h3>
+    <canvas id="weeklyWeightChart" class="mb-4"></canvas>
+    <canvas id="weeklyLevelChart" class="mb-4"></canvas>
+    <canvas id="weeklyXPChart" class="mb-5"></canvas>
+
+    <!-- GRÁFICAS MENSUALES -->
+    <h3 class="text-warning mt-4">Mensual</h3>
+    <canvas id="monthlyWeightChart" class="mb-4"></canvas>
+    <canvas id="monthlyLevelChart" class="mb-4"></canvas>
+    <canvas id="monthlyXPChart" class="mb-5"></canvas>
+
+    <div class="text-center mt-4">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-warning btn-lg w-50">⬅ Volver al Dashboard</a>
+    </div>
+
+</div>
+
+<script>
+    // DIARIO
+    const dailyDates = {{ daily_dates|tojson }};
+    const dailyWeights = {{ daily_weights|tojson }};
+    const dailyLevels = {{ daily_levels|tojson }};
+    const dailyXPs = {{ daily_xps|tojson }};
+
+    new Chart(document.getElementById('dailyWeightChart'), {
+        type: 'line',
+        data: { labels: dailyDates, datasets: [{ label: 'Peso (kg)', data: dailyWeights, borderColor:'#ffc107', backgroundColor:'rgba(255,193,7,0.2)', fill:true, tension:0.3 }] },
+        options: { responsive: true }
+    });
+    new Chart(document.getElementById('dailyLevelChart'), {
+        type: 'line',
+        data: { labels: dailyDates, datasets: [{ label: 'Nivel', data: dailyLevels, borderColor:'#0dcaf0', backgroundColor:'rgba(13,202,240,0.2)', fill:true, tension:0.3 }] },
+        options: { responsive: true }
+    });
+    new Chart(document.getElementById('dailyXPChart'), {
+        type: 'bar',
+        data: { labels: dailyDates, datasets: [{ label:'XP Diario', data: dailyXPs, backgroundColor:'#20c997' }] },
+        options: { responsive: true }
+    });
+
+    // SEMANAL
+    const weeklyLabels = {{ weekly|map(attribute='label')|list|tojson }};
+    const weeklyWeights = {{ weekly|map(attribute='weight')|list|tojson }};
+    const weeklyLevels = {{ weekly|map(attribute='level')|list|tojson }};
+    const weeklyXPs = {{ weekly|map(attribute='xp')|list|tojson }};
+
+    new Chart(document.getElementById('weeklyWeightChart'), {
+        type:'line', data:{ labels: weeklyLabels, datasets:[{ label:'Peso (kg)', data: weeklyWeights, borderColor:'#ffc107', backgroundColor:'rgba(255,193,7,0.2)', fill:true, tension:0.3 }]}, options:{responsive:true}
+    });
+    new Chart(document.getElementById('weeklyLevelChart'), {
+        type:'line', data:{ labels: weeklyLabels, datasets:[{ label:'Nivel', data: weeklyLevels, borderColor:'#0dcaf0', backgroundColor:'rgba(13,202,240,0.2)', fill:true, tension:0.3 }]}, options:{responsive:true}
+    });
+    new Chart(document.getElementById('weeklyXPChart'), {
+        type:'bar', data:{ labels: weeklyLabels, datasets:[{ label:'XP Promedio', data: weeklyXPs, backgroundColor:'#20c997' }]}, options:{responsive:true}
+    });
+
+    // MENSUAL
+    const monthlyLabels = {{ monthly|map(attribute='label')|list|tojson }};
+    const monthlyWeights = {{ monthly|map(attribute='weight')|list|tojson }};
+    const monthlyLevels = {{ monthly|map(attribute='level')|list|tojson }};
+    const monthlyXPs = {{ monthly|map(attribute='xp')|list|tojson }};
+
+    new Chart(document.getElementById('monthlyWeightChart'), {
+        type:'line', data:{ labels: monthlyLabels, datasets:[{ label:'Peso (kg)', data: monthlyWeights, borderColor:'#ffc107', backgroundColor:'rgba(255,193,7,0.2)', fill:true, tension:0.3 }]}, options:{responsive:true}
+    });
+    new Chart(document.getElementById('monthlyLevelChart'), {
+        type:'line', data:{ labels: monthlyLabels, datasets:[{ label:'Nivel', data: monthlyLevels, borderColor:'#0dcaf0', backgroundColor:'rgba(13,202,240,0.2)', fill:true, tension:0.3 }]}, options:{responsive:true}
+    });
+    new Chart(document.getElementById('monthlyXPChart'), {
+        type:'bar', data:{ labels: monthlyLabels, datasets:[{ label:'XP Promedio', data: monthlyXPs, backgroundColor:'#20c997' }]}, options:{responsive:true}
+    });
+</script>
+
+</body>
+</html>
